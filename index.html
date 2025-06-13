@@ -1,146 +1,213 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Harish Kumar RS - Portfolio</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      background-color: #0f0f0f;
-      color: #00ffe7;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Harish Kumar RS - Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* General Body Styling */
+        body {
+            margin: 0;
+            font-family: 'Orbitron', sans-serif;
+            background-color: #0f0f0f; /* Dark background */
+            color: #00ffe7; /* Neon blue/green text */
+            overflow-x: hidden; /* Prevent horizontal scrollbars */
+            overflow-y: auto; /* Allow vertical scrolling for content */
+        }
 
-    /* Intro screen */
-    #intro {
-      height: 100vh;
-      background: radial-gradient(circle, #000 30%, #111 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      transition: opacity 1s ease-in-out;
-    }
+        /* Intro Screen Styling */
+        #intro {
+            height: 100vh;
+            background: radial-gradient(circle, #000 30%, #111 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: opacity 1s ease-in-out;
+            position: relative; /* Needed for text shadow animation */
+            z-index: 100; /* Ensure it's on top */
+            position: fixed; /* Fix intro screen position */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-    #intro h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 20px #00ffe7;
-    }
+        /* Intro H1 Text Styling and Glitch Animation */
+        #intro h1 {
+            font-size: clamp(2rem, 8vw, 4rem); /* Responsive font size */
+            margin-bottom: 1.5rem;
+            color: #00ffe7;
+            position: relative; /* For pseudo-elements */
+            animation: text-shadow-pulse 2s infinite alternate; /* Pulsing text shadow */
+        }
 
-    #enterBtn {
-      background: transparent;
-      border: 2px solid #00ffe7;
-      color: #00ffe7;
-      padding: 10px 20px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+        /* Text Glitch Effect */
+        #intro h1::before,
+        #intro h1::after {
+            content: attr(data-text); /* Get text from data-text attribute */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
 
-    #enterBtn:hover {
-      background: #00ffe7;
-      color: #000;
-    }
+        #intro h1::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00de; /* Magenta offset shadow */
+            animation: glitch-skew 1.5s infinite alternate-reverse;
+        }
 
-    /* Main portfolio hidden initially */
-    #mainContent {
-      display: none;
-      animation: fadeIn 1s ease forwards;
-    }
+        #intro h1::after {
+            left: -2px;
+            text-shadow: -2px 0 #00d2ff; /* Cyan offset shadow */
+            animation: glitch 2s infinite alternate-reverse;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+        /* Keyframes for Glitch and Text Shadow */
+        @keyframes text-shadow-pulse {
+            from { text-shadow: 0 0 20px #00ffe7; }
+            to { text-shadow: 0 0 40px #00ffe7, 0 0 60px rgba(0, 255, 231, 0.4); }
+        }
 
-    section {
-      padding: 3rem 2rem;
-    }
+        @keyframes glitch {
+            0% { clip: rect(20px, 9999px, 80px, 0); }
+            10% { clip: rect(100px, 9999px, 150px, 0); }
+            20% { clip: rect(10px, 9999px, 60px, 0); }
+            30% { clip: rect(120px, 9999px, 170px, 0); }
+            40% { clip: rect(50px, 9999px, 100px, 0); }
+            50% { clip: rect(140px, 9999px, 190px, 0); }
+            60% { clip: rect(30px, 9999px, 90px, 0); }
+            70% { clip: rect(110px, 9999px, 160px, 0); }
+            80% { clip: rect(0, 9999px, 50px, 0); }
+            90% { clip: rect(130px, 9999px, 180px, 0); }
+            100% { clip: rect(70px, 9999px, 120px, 0); }
+        }
 
-    nav {
-      box-shadow: 0 0 10px #00ffe7;
-    }
+        @keyframes glitch-skew {
+            0% { transform: skewX(0deg); }
+            20% { transform: skewX(-5deg); }
+            40% { transform: skewX(5deg); }
+            60% { transform: skewX(-5deg); }
+            80% { transform: skewX(5deg); }
+            100% { transform: skewX(0deg); }
+        }
 
-    a, h2 {
-      color: #00ffe7;
-    }
-  </style>
-</head>
-<body>
+        /* Enter Button Styling and Glow Animation */
+        #enterBtn {
+            background: transparent;
+            border: 2px solid #00ffe7;
+            color: #00ffe7;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px #00ffe7; /* Initial glow */
+            animation: neon-glow 1.5s infinite alternate; /* Pulsating neon glow */
+            border-radius: 5px; /* Slightly rounded corners */
+        }
 
-  <!-- Intro Section -->
-  <div id="intro">
-    <h1>Welcome to My Portfolio</h1>
-    <button id="enterBtn">Enter</button>
-  </div>
+        #enterBtn:hover {
+            background: #00ffe7;
+            color: #0f0f0f;
+            box-shadow: 0 0 20px #00ffe7, 0 0 30px #00ffe7; /* Enhanced hover glow */
+        }
 
-  <!-- Main Content -->
-  <div id="mainContent">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Harish Kumar RS</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-            <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-            <li class="nav-item"><a class="nav-link" href="#certifications">Certifications</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+        /* Keyframes for Button Glow */
+        @keyframes neon-glow {
+            from { box-shadow: 0 0 5px #00ffe7, 0 0 10px #00ffe7; }
+            to { box-shadow: 0 0 15px #00ffe7, 0 0 25px #00ffe7, 0 0 35px rgba(0, 255, 231, 0.6); }
+        }
 
-    <!-- About -->
-    <section id="about">
-      <h2>About Me</h2>
-      <p>I'm Harish Kumar RS, based in Dubai — aspiring data analyst, currently diving into analytics, automation, and real-world finance projects.</p>
-    </section>
+        /* Main Portfolio Content Styling */
+        #mainContent {
+            display: none;
+            animation: fadeIn 1s ease forwards;
+            position: relative; /* For z-index to be above canvas */
+            z-index: 1;
+            padding-top: 56px; /* Space for fixed navbar */
+        }
 
-    <!-- Projects -->
-    <section id="projects">
-      <h2>Projects</h2>
-      <ul>
-        <li>Coming Soon: Excel/SQL dashboard analysis</li>
-      </ul>
-    </section>
+        /* Fade-in Animation for Main Content */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-    <!-- Certifications -->
-    <section id="certifications">
-      <h2>Certifications</h2>
-      <ul>
-        <li>Google Data Analytics Professional Certificate – In Progress</li>
-      </ul>
-    </section>
+        /* Canvas for Animated Background */
+        #backgroundCanvas {
+            position: fixed; /* Fixed to viewport */
+            top: 0;
+            left: 0;
+            width: 100vw; /* Full viewport width */
+            height: 100vh; /* Full viewport height */
+            z-index: 0; /* Behind main content */
+            opacity: 0; /* Hidden initially */
+            transition: opacity 1s ease-in-out;
+        }
 
-    <!-- Contact -->
-    <section id="contact">
-      <h2>Contact</h2>
-      <p>Email: your@email.com</p>
-      <p>GitHub: <a href="https://github.com/Harish-Kumar-Rs" target="_blank">Harish-Kumar-Rs</a></p>
-    </section>
-  </div>
+        /* Sections Styling */
+        section {
+            padding: 3rem 2rem;
+            background-color: rgba(15, 15, 15, 0.8); /* Semi-transparent background for readability */
+            margin: 1rem auto; /* Center sections and add space */
+            border-radius: 8px; /* Rounded corners for sections */
+            box-shadow: 0 0 15px rgba(0, 255, 231, 0.3); /* Subtle neon shadow */
+            max-width: 900px; /* Max width for content */
+        }
 
-  <script>
-    document.getElementById("enterBtn").addEventListener("click", function () {
-      document.getElementById("intro").style.opacity = 0;
-      setTimeout(() => {
-        document.getElementById("intro").style.display = "none";
-        document.getElementById("mainContent").style.display = "block";
-      }, 1000);
-    });
-  </script>
+        /* Navbar Styling */
+        nav {
+            box-shadow: 0 0 15px rgba(0, 255, 231, 0.5); /* Enhanced neon shadow */
+            background-color: rgba(30, 30, 30, 0.9); /* Slightly lighter dark background */
+            position: fixed; /* Fixed navbar */
+            width: 100%;
+            top: 0;
+            z-index: 5; /* Above sections, below intro */
+        }
 
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+        .navbar-brand, .nav-link, h2 {
+            color: #00ffe7 !important; /* Ensure neon color */
+            text-shadow: 0 0 5px rgba(0, 255, 231, 0.5); /* Subtle text shadow */
+        }
+
+        .nav-link:hover {
+            color: #fff !important; /* Brighter on hover */
+            text-shadow: 0 0 10px #fff, 0 0 20px #00ffe7;
+        }
+
+        /* Tile specific styling */
+        .tile-container {
+            margin-top: 1.5rem; /* Space below section heading */
+            justify-content: center; /* Center tiles horizontally */
+        }
+
+        .tile {
+            background-color: rgba(25, 25, 25, 0.9); /* Slightly lighter dark for tiles */
+            border: 1px solid #00ffe7; /* Neon border */
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem; /* Space between tiles */
+            box-shadow: 0 0 10px rgba(0, 255, 231, 0.2); /* Subtle glow */
+            transition: all 0.3s ease;
+            text-align: center; /* Center text within tiles */
+            display: flex; /* Use flex for content alignment */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%; /* Ensure uniform height in grid */
+        }
+
+        .tile:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 0 20px rgba(0, 255, 231, 0.6), 0 0 30px rgba(255, 0, 222, 0.4); /* Enhanced glow with magenta tint */
+            border-color: #ff00de; /* Magenta border on hover */
+        }
+
+        .tile h
