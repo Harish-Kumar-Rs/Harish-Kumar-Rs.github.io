@@ -210,4 +210,261 @@
             border-color: #ff00de; /* Magenta border on hover */
         }
 
-        .tile h
+        .tile h3 {
+            color: #00ffe7;
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            text-shadow: 0 0 8px #00ffe7;
+        }
+
+        .tile p {
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+
+        /* Links within tiles */
+        .tile a {
+            color: #ff00de; /* Magenta for links in tiles */
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .tile a:hover {
+            color: #00ffe7; /* Neon on hover */
+            text-decoration: underline;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #intro h1 {
+                font-size: 2.5rem;
+            }
+            #enterBtn {
+                font-size: 1rem;
+                padding: 8px 15px;
+            }
+            section {
+                padding: 2rem 1rem;
+            }
+            .tile {
+                padding: 1rem;
+            }
+            .tile h3 {
+                font-size: 1.2rem;
+            }
+            .tile p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animated Background Canvas -->
+    <canvas id="backgroundCanvas"></canvas>
+
+    <!-- Intro Section -->
+    <div id="intro">
+        <!-- Added data-text attribute for glitch effect -->
+        <h1 data-text="Welcome to My Portfolio">Welcome to My Portfolio</h1>
+        <button id="enterBtn">Enter</button>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Harish Kumar RS</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#certifications">Certifications</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2>About Me</h2>
+            <p>I'm Harish Kumar RS, based in Dubai — aspiring data analyst, currently diving into analytics, automation, and real-world finance projects.</p>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2>Projects</h2>
+            <div class="row tile-container">
+                <!-- Example Project Tile 1 -->
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+                    <div class="tile">
+                        <h3>Project: Dashboard Analysis</h3>
+                        <p>Coming Soon: An interactive dashboard built with Excel and SQL, showcasing data analysis skills.</p>
+                        <!-- Add a placeholder link or button here if desired -->
+                        <!-- <a href="#" class="btn btn-outline-info mt-3">View Project</a> -->
+                    </div>
+                </div>
+                <!-- Example Project Tile 2 (add more as needed) -->
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+                    <div class="tile">
+                        <h3>Project: Automation Script</h3>
+                        <p>An upcoming project focusing on automating a real-world task using scripting languages.</p>
+                        <!-- Add a placeholder link or button here if desired -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications">
+            <h2>Certifications</h2>
+            <div class="row tile-container">
+                <!-- Example Certification Tile 1 -->
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+                    <div class="tile">
+                        <h3>Google Data Analytics</h3>
+                        <p>Currently in progress, this professional certificate covers data analysis methodologies and tools.</p>
+                        <!-- Add a placeholder link to the certification if available -->
+                        <!-- <a href="#" target="_blank" class="btn btn-outline-info mt-3">View Certificate</a> -->
+                    </div>
+                </div>
+                <!-- Example Certification Tile 2 (add more as needed) -->
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+                    <div class="tile">
+                        <h3>[Certification Name Here]</h3>
+                        <p>Description of another certification you might acquire.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>Email: <a href="mailto:your@email.com">connectharish.in@gmail.com</a></p>
+            <p>GitHub: <a href="https://github.com/Harish-Kumar-Rs" target="_blank">Harish-Kumar-Rs</a></p>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Get elements
+        const introSection = document.getElementById("intro");
+        const enterButton = document.getElementById("enterBtn");
+        const mainContent = document.getElementById("mainContent");
+        const backgroundCanvas = document.getElementById("backgroundCanvas");
+        const ctx = backgroundCanvas.getContext("2d");
+
+        // Set data-text attribute for glitch effect
+        // Ensure the h1 element exists before trying to set its attribute
+        const introH1 = introSection.querySelector('h1');
+        if (introH1) {
+            introH1.setAttribute('data-text', introH1.textContent);
+        }
+
+
+        // Particle System for Background
+        let particles = [];
+        const particleCount = 150; // Number of particles
+        const particleSpeed = 0.5; // Speed of particles
+
+        // Particle class definition
+        class Particle {
+            constructor(x, y, radius, color, vx, vy) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+                this.vx = vx; // velocity x
+                this.vy = vy; // velocity y
+            }
+
+            // Update particle position
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Wrap particles around the screen
+                if (this.x < -this.radius) this.x = backgroundCanvas.width + this.radius;
+                if (this.x > backgroundCanvas.width + this.radius) this.x = -this.radius;
+                if (this.y < -this.radius) this.y = backgroundCanvas.height + this.radius;
+                if (this.y > backgroundCanvas.height + this.radius) this.y = -this.radius;
+            }
+
+            // Draw particle
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = this.radius * 2; // Create a glow effect
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        function initParticles() {
+            particles = []; // Clear existing particles on resize
+            for (let i = 0; i < particleCount; i++) {
+                const x = Math.random() * backgroundCanvas.width;
+                const y = Math.random() * backgroundCanvas.height;
+                const radius = Math.random() * 1.5 + 0.5; // Random radius between 0.5 and 2
+                const color = `rgba(0, 255, 231, ${Math.random() * 0.5 + 0.3})`; // Neon color with varying alpha
+                const vx = (Math.random() - 0.5) * particleSpeed; // Random velocity x
+                const vy = (Math.random() - 0.5) * particleSpeed; // Random velocity y
+                particles.push(new Particle(x, y, radius, color, vx, vy));
+            }
+        }
+
+        // Animation loop for particles
+        function animateParticles() {
+            // Clear canvas with a slight fade effect to create trails
+            ctx.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
+            // Alternatively, for a "fading trails" effect, you can draw a semi-transparent rectangle
+            // ctx.fillStyle = 'rgba(15, 15, 15, 0.05)'; // Adjust alpha for longer/shorter trails
+            // ctx.fillRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
+
+
+            for (const particle of particles) {
+                particle.update();
+                particle.draw();
+            }
+            requestAnimationFrame(animateParticles); // Loop animation
+        }
+
+        // Handle canvas resizing for responsiveness
+        function resizeCanvas() {
+            backgroundCanvas.width = window.innerWidth;
+            backgroundCanvas.height = window.innerHeight;
+            initParticles(); // Reinitialize particles for new size
+        }
+
+        // Event listener for Enter button
+        enterButton.addEventListener("click", function () {
+            // Fade out intro
+            introSection.style.opacity = 0;
+            setTimeout(() => {
+                introSection.style.display = "none"; // Hide intro after fade
+                mainContent.style.display = "block"; // Show main content
+                backgroundCanvas.style.opacity = 0.3; // Show background canvas with slight opacity
+            }, 1000); // Match fade-out duration
+        });
+
+        // Initialize and start animations when the window loads
+        window.onload = function() {
+            resizeCanvas(); // Set initial canvas size
+            animateParticles(); // Start particle animation
+        };
+
+        // Update canvas size and particles on window resize
+        window.addEventListener('resize', resizeCanvas);
+    </script>
+</body>
+</html>
+
